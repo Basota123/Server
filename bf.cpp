@@ -93,7 +93,8 @@ std::string bf::task4(const std::string& input, const std::string& given_functio
     return ans;
 }
 
-bool bf::task5(const std::string& func, const std::vector<bool>& essentials)
+// переделать 
+std::string bf::task5(const std::string& func, const std::string& essentials)
 {
     size_t length = func.size();
     size_t args = 0;
@@ -106,6 +107,10 @@ bool bf::task5(const std::string& func, const std::vector<bool>& essentials)
 
     std::vector<bool> result(args, false);
 
+    std::string ans{};
+
+    if (result.size() != essentials.size()) ans = "error";
+
     for (size_t i = 0; i < args; i++)
     {
         const std::string nuller = task2(func, 0, i);
@@ -114,10 +119,36 @@ bool bf::task5(const std::string& func, const std::vector<bool>& essentials)
         result[i] = (nuller == units);
     }
 
-    return result == essentials;
+    for (size_t i = 0; i < result.size(); i++)
+    {
+        if (!result[i])
+        {
+            if (static_cast<size_t>(essentials[i] - '0') == i+1) 
+            {
+                ans = "Правильно!";
+                continue;
+            }
+
+            else 
+            {
+                ans = "Неправильно!";    
+                break;
+            }
+        }
+
+        else
+        {
+            ans = "Правильно!";
+        }
+
+        
+    }
+
+    // if (result == essentials) ans = "Правильно!";
+    // else ans = "Неправильно!";
+
+    return ans;
 }
-
-
 
 
 std::string bf::task8(const std::string& f)
@@ -166,9 +197,9 @@ std::string bf::task9(const std::string& f)
     return sknf.length() > 3 ? sknf.substr(0, sknf.length() - 3) : "";
 }
 
-std::vector<bool> bf::task10(const std::string& f)
+std::string bf::task10(const std::string& f, const std::vector<bool>& vbool)
 {
-    return std::vector
+    std::vector<bool> bf_classes
     {
         is_nuller(f), 
         is_units(f), 
@@ -176,12 +207,21 @@ std::vector<bool> bf::task10(const std::string& f)
         is_monotonic(f), 
         is_linear(f)
     };
+
+    std::string ans{};
+
+    if (bf_classes == vbool) ans = "Правильно!";
+    else ans = "Неправильно!";
+
+    return ans;
 }
 
-std::vector<bool> bf::task11(const std::string& f)
+std::string bf::task11(const std::string& f, const std::vector<bool>& input)
 {
     std::vector<bool> result = {false, false, false, false, false};
-    const std::vector<std::string> system = parse(f, ',');
+    const std::vector<std::string> system = parse(f, ' ');
+
+    std::string ans{};
 
     for (size_t i = 0; i < result.size(); i++)
     {
@@ -190,19 +230,17 @@ std::vector<bool> bf::task11(const std::string& f)
         result[2] = is_self_dual(system[i]);
         result[3] = is_monotonic(system[i]);
         result[4] = is_linear(system[i]);
+
+        
+
     }
 
-    bool complete = true;
-    for (bool res : result) {
-        if (res) {
-            complete = false;
-            break;
-        }
-    }
+    
+    
 
-    result.push_back(complete);
 
-    return result;
+
+    return ans;
 }
 
 

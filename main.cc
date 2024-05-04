@@ -49,7 +49,7 @@ void second_task(const FunctionCallbackInfo<Value>& args)
 
     std::vector<std::string> vstr = bf::parse(input, ' ');
 
-    if ((1ull << (stoull(vstr[2]) + 1) > vstr[0].size()))
+    if ((1ull << (stoull(vstr[2]) - 1) > vstr[0].size()))
     {
         isolate->ThrowException(Exception::RangeError(
             String::NewFromUtf8(
@@ -121,20 +121,11 @@ void fifth_task(const FunctionCallbackInfo<Value>& args)
     std::string input{get_input(args)};
 
     std::vector<std::string> vstr = bf::parse(input,' ');
-    std::vector<bool> vbool{};
 
-    for (size_t i = 0; i < vstr[1].size(); ++i) 
-        vbool[i] = (vstr[1][i] - '0');
-
-    bool result = bf::task5(vstr[0], vbool);
-
-    std::stringstream ss{""};
-    ss << std::boolalpha << result;
-
-    const char* ans = ss.str().c_str();
+    std::string result = bf::task5(vstr[0], vstr[1]);
 
     args.GetReturnValue().Set(String::NewFromUtf8(
-    isolate, ans).ToLocalChecked());
+    isolate, result.c_str()).ToLocalChecked());
 }
 
 
@@ -163,8 +154,29 @@ void ninth_task(const FunctionCallbackInfo<Value>& args)
     isolate, ans.c_str()).ToLocalChecked());
 }
 
+void tenth_task(const FunctionCallbackInfo<Value>& args)
+{
+    Isolate* isolate = args.GetIsolate();
+    std::string input{get_input(args)};
 
-void tenth_task(const FunctionCallbackInfo<Value>& args);
+    std::vector<std::string> vstr = bf::parse(input,' ');
+    std::vector<bool> vbool{};
+
+    for (size_t i = 0; i < vstr[1].size(); ++i) 
+        vbool.push_back(vstr[1][i] - '0');
+
+    std::string result = bf::task10(vstr[0], vbool);
+
+    // std::stringstream ss;
+    // ss << std::boolalpha << result;
+
+    // const char* ans = ss.str().c_str();
+
+    args.GetReturnValue().Set(String::NewFromUtf8(
+    isolate, result.c_str()).ToLocalChecked());
+}
+
+
 void eleventh_task(const FunctionCallbackInfo<Value>& args);
 void twelfth_task(const FunctionCallbackInfo<Value>& args);
 
@@ -179,6 +191,7 @@ void Initialize(Local<Object> exports)
 
     NODE_SET_METHOD(exports, "eighth_task", eighth_task);
     NODE_SET_METHOD(exports, "ninth_task", ninth_task);
+    NODE_SET_METHOD(exports, "tenth_task", tenth_task);
 }   
 
 NODE_MODULE(addon, Initialize)
