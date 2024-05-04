@@ -1,6 +1,7 @@
 #include <node.h>
 #include <string>
 #include <iostream>
+#include <sstream>
 #include "bf.hpp"
 
 using v8::FunctionCallbackInfo;
@@ -114,7 +115,29 @@ void fourth_task(const FunctionCallbackInfo<Value>& args)
     isolate, ans.c_str()).ToLocalChecked());
 }
 
-void fifth_task(const FunctionCallbackInfo<Value>& args);
+void fifth_task(const FunctionCallbackInfo<Value>& args)
+{
+    Isolate* isolate = args.GetIsolate();
+    std::string input{get_input(args)};
+
+    std::vector<std::string> vstr = bf::parse(input,' ');
+    std::vector<bool> vbool{};
+
+    for (size_t i = 0; i < vstr[1].size(); ++i) 
+        vbool[i] = (vstr[1][i] - '0');
+
+    bool result = bf::task5(vstr[0], vbool);
+
+    std::stringstream ss{""};
+    ss << std::boolalpha << result;
+
+    const char* ans = ss.str().c_str();
+
+    args.GetReturnValue().Set(String::NewFromUtf8(
+    isolate, ans).ToLocalChecked());
+}
+
+
 void sixth_task(const FunctionCallbackInfo<Value>& args);
 void seventh_task(const FunctionCallbackInfo<Value>& args);
 
@@ -152,6 +175,7 @@ void Initialize(Local<Object> exports)
     NODE_SET_METHOD(exports, "second_task", second_task);
     NODE_SET_METHOD(exports, "third_task", third_task);
     NODE_SET_METHOD(exports, "fourth_task", fourth_task);
+    NODE_SET_METHOD(exports, "fifth_task", fifth_task);
 
     NODE_SET_METHOD(exports, "eighth_task", eighth_task);
     NODE_SET_METHOD(exports, "ninth_task", ninth_task);
