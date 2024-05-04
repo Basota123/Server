@@ -1,0 +1,15 @@
+{
+  "name": "bf",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "node-gyp configure build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "node-gyp": "^10.1.0"
+  }
+}
