@@ -8,12 +8,8 @@
 #include <utility>
 #include <unordered_map>
 
-//setlocale(LC_ALL, "RU");
-
 std::string bf::task1(const std::string& n)
 {
-    //if (n > 61) throw std::invalid_argument("n must be less than 61");
-
     srand(time(nullptr));
     const size_t SIZE = std::stoull(n);
 
@@ -49,7 +45,7 @@ std::string bf::task3(const std::string& first, const std::string& second, const
     // if (first.size() != second.size())
     //     throw std::invalid_argument("Invalid functions");
 
-    std::string fun = first + second;
+    const std::string fun = first + second;
     const size_t step = round((fun.size() / (1ull << (arg_num))));
 
     std::string result{};
@@ -62,10 +58,10 @@ std::string bf::task3(const std::string& first, const std::string& second, const
     return result;
 }
 
-std::string bf::task4(const std::string& input)
+std::string bf::task4(const std::string& input, const std::string& given_function)
 {
 
-    std::string given_function{task1("2")};
+    // const std::string given_function{task1("2")};
 
     // std::cout << "Вам дана функция: " << given_function << '\n';
     // std::cout << "Назовите ее имя, вам нужно ввести его словами\n";
@@ -97,7 +93,7 @@ std::string bf::task4(const std::string& input)
     return ans;
 }
 
-std::vector<bool> bf::task5(const std::string& func, const std::vector<bool>& essentials)
+bool bf::task5(const std::string& func, const std::vector<bool>& essentials)
 {
     size_t length = func.size();
     size_t args = 0;
@@ -112,13 +108,13 @@ std::vector<bool> bf::task5(const std::string& func, const std::vector<bool>& es
 
     for (size_t i = 0; i < args; i++)
     {
-        std::string nuller = task2(func, 0, i);
-        std::string units = task2(func, 1, i);
+        const std::string nuller = task2(func, 0, i);
+        const std::string units = task2(func, 1, i);
 
         result[i] = (nuller == units);
     }
 
-    return result;
+    return result == essentials;
 }
 
 

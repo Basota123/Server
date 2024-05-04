@@ -106,7 +106,9 @@ void fourth_task(const FunctionCallbackInfo<Value>& args)
     Isolate* isolate = args.GetIsolate();
     std::string input{get_input(args)};
 
-    std::string ans = bf::task4(input);
+    std::vector<std::string> vstr = bf::parse(input,' ');
+
+    std::string ans = bf::task4(vstr[0], vstr[1]);
 
     args.GetReturnValue().Set(String::NewFromUtf8(
     isolate, ans.c_str()).ToLocalChecked());
