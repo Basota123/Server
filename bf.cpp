@@ -145,7 +145,7 @@ const std::string bf::task6(const std::string& function, const std::string& user
     const std::string DNF = task12(function);
     std::string ans{};
 
-    if (user_input == function) ans = "Правильно!";
+    if (user_input == DNF) ans = "Правильно!";
     else ans = "Неправильно!";
 
     return ans;
@@ -156,7 +156,7 @@ const std::string bf::task7(const std::string& function, const std::string& user
     const std::string KNF = bf::build_knf(function);
     std::string ans{};
 
-    if (user_input == function) ans = "Правильно!";
+    if (user_input == KNF) ans = "Правильно!";
     else ans = "Неправильно!";
 
     return ans;
