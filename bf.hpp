@@ -30,8 +30,8 @@ public:
 public:
 // парсинг строки с множеством функций
     static std::vector<std::string> parse(const std::string&, char&&);
-
-    // static std::vector<std::vector<size_t>> generate_truth_table(const size_t&, const std::string&);
+    static std::string create_dnf(const std::string&);
+    
 
 };
 

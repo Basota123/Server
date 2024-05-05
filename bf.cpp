@@ -25,10 +25,14 @@ std::string bf::task1(const std::string& n)
 // нахожу остаточную по аргументу от 0 до n-1
 std::string bf::task2(const std::string& func, const size_t& value, const size_t& arg_num)
 {
-    // if ((1 << arg_num) > func.size()) 
-       // throw std::invalid_argument("Invalid argument");
-
     std::string residual{};
+
+    if ((1ull << arg_num) > func.size()) 
+    {
+        residual = "Не правильно введены вектор функции или аргумент";
+        return residual;
+    }
+
     const size_t step = round((func.size() / (1ull << (arg_num + 1))));
 
     for (size_t i = value * step; i < func.size(); i += 2 * step)
@@ -40,15 +44,24 @@ std::string bf::task2(const std::string& func, const size_t& value, const size_t
 
 std::string bf::task3(const std::string& first, const std::string& second, const size_t& arg_num)
 {
-    // if ((first.size() + second.size()) < (1 << arg_num)) 
-    //     throw std::invalid_argument("Invalid argument");
-    // if (first.size() != second.size())
-    //     throw std::invalid_argument("Invalid functions");
-
     const std::string fun = first + second;
     const size_t step = round((fun.size() / (1ull << (arg_num))));
 
     std::string result{};
+
+    if ((first.size() + second.size()) < (1ull << arg_num)) 
+    {
+        result = "Не правильно введены вектора функций или аргумент!";
+        return result;
+    }
+        
+    else if (first.size() != second.size())
+    {
+        result = "Не правильно введены остаточные!";
+        return result;
+    }
+        
+
     for (size_t i = 0; i < first.size(); i += step)
     {
         for (size_t j = 0; j < step; j++) result.push_back(first[i+j]);
@@ -150,51 +163,93 @@ std::string bf::task5(const std::string& func, const std::string& essentials)
     return ans;
 }
 
+std::string bf::task6(const std::string& f)
+{
+    std::string dnf{};
+
+    const size_t n = floor(log(f.size()) / log(2ull));
+    const size_t m = f.size() / (1ull << n);
+    const size_t step = round((f.size() / (1ull << n)));
+    
+    return dnf;
+}
+
+
 
 std::string bf::task8(const std::string& f)
 {
     std::string sdnf{};
-    const size_t n = floor(log(f.size()) / log(2ull));
 
-    for (size_t i = 0; i < (1ull << n); i++)
+    if ((f.find('0') || f.find('1')) && 
+        (!f.find('2') || !f.find('3') || 
+        !f.find('4') || !f.find('5') || 
+        !f.find('6') || !f.find('7') || 
+        !f.find('8') || !f.find('9'))
+    )
     {
-        if (f[i] == '1')
+        
+        const size_t n = floor(log(f.size()) / log(2ull));
+
+        for (size_t i = 0; i < (1ull << n); i++)
         {
-            std::string variables = "";
+            if (f[i] == '1')
+            {
+                std::string variables = "";
 
-            const std::string binary = std::bitset<32>(i).to_string().substr(32-n);
+                const std::string binary = std::bitset<32>(i).to_string().substr(32-n);
 
-            for (size_t j = 0; j < n; j++)
-                variables += binary[j] == '0' ? "!x" + std::to_string(j + 1) + " & " : "x" + std::to_string(j + 1) + " & ";
-            
-            sdnf += "(" + variables.substr(0, variables.length() - 3) + ") | ";   
+                for (size_t j = 0; j < n; j++)
+                    variables += binary[j] == '0' ? "!x" + std::to_string(j + 1) + " & " : "x" + std::to_string(j + 1) + " & ";
+                
+                sdnf += "(" + variables.substr(0, variables.length() - 3) + ") | ";   
+            }
         }
-    }
 
-    return sdnf.length() > 3 ? sdnf.substr(0, sdnf.length() - 3) : "";
+        return sdnf.length() > 3 ? sdnf.substr(0, sdnf.length() - 3) : "";
+    }
+    else 
+    {
+        sdnf = "Не правильно введён вектор функции!";
+        return sdnf;
+    }
 }
 
 std::string bf::task9(const std::string& f)
 {
     std::string sknf{};
-    const size_t n = floor(log(f.size()) / log(2ull));
 
-    for (size_t i = 0; i < (1ull << n); i++)
+    if ((f.find('0') || f.find('1')) && 
+        (!f.find('2') || !f.find('3') || 
+        !f.find('4') || !f.find('5') || 
+        !f.find('6') || !f.find('7') || 
+        !f.find('8') || !f.find('9'))
+    )
     {
-        if (f[i] == '1')
+        const size_t n = floor(log(f.size()) / log(2ull));
+
+        for (size_t i = 0; i < (1ull << n); i++)
         {
-            std::string variables = "";
+            if (f[i] == '1')
+            {
+                std::string variables = "";
 
-            const std::string binary = std::bitset<32>(i).to_string().substr(32-n);
+                const std::string binary = std::bitset<32>(i).to_string().substr(32-n);
 
-            for (size_t j = 0; j < n; j++)
-                variables += binary[j] == '1' ? "!x" + std::to_string(j + 1) + " | " : "x" + std::to_string(j + 1) + " | ";
-            
-            sknf += "(" + variables.substr(0, variables.length() - 3) + ") & ";   
+                for (size_t j = 0; j < n; j++)
+                    variables += binary[j] == '1' ? "!x" + std::to_string(j + 1) + " | " : "x" + std::to_string(j + 1) + " | ";
+                
+                sknf += "(" + variables.substr(0, variables.length() - 3) + ") & ";   
+            }
         }
+
+        return sknf.length() > 3 ? sknf.substr(0, sknf.length() - 3) : "";
     }
 
-    return sknf.length() > 3 ? sknf.substr(0, sknf.length() - 3) : "";
+    else
+    {
+        sknf = "Не правильно введён вектор функции!";
+        return sknf;
+    }
 }
 
 std::string bf::task10(const std::string& f, const std::vector<bool>& vbool)
@@ -230,9 +285,6 @@ std::string bf::task11(const std::string& f, const std::vector<bool>& input)
         result[2] = is_self_dual(system[i]);
         result[3] = is_monotonic(system[i]);
         result[4] = is_linear(system[i]);
-
-        
-
     }
 
     
@@ -278,7 +330,6 @@ bool bf::is_monotonic(const std::string& f)
     
     return true;
 }
-
 
 bool bf::is_linear(const std::string& f)
 {
