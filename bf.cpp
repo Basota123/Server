@@ -8,7 +8,7 @@
 #include <utility>
 #include <unordered_map>
 
-std::string bf::task1(const std::string& n)
+const std::string bf::task1(const std::string& n)
 {
     srand(time(nullptr));
     const size_t SIZE = std::stoull(n);
@@ -23,7 +23,7 @@ std::string bf::task1(const std::string& n)
 }
 
 // нахожу остаточную по аргументу от 0 до n-1
-std::string bf::task2(const std::string& func, const size_t& value, const size_t& arg_num)
+const std::string bf::task2(const std::string& func, const size_t& value, const size_t& arg_num)
 {
     std::string residual{};
 
@@ -42,7 +42,7 @@ std::string bf::task2(const std::string& func, const size_t& value, const size_t
     return residual;
 }
 
-std::string bf::task3(const std::string& first, const std::string& second, const size_t& arg_num)
+const std::string bf::task3(const std::string& first, const std::string& second, const size_t& arg_num)
 {
     const std::string fun = first + second;
     const size_t step = round((fun.size() / (1ull << (arg_num))));
@@ -71,14 +71,8 @@ std::string bf::task3(const std::string& first, const std::string& second, const
     return result;
 }
 
-std::string bf::task4(const std::string& input, const std::string& given_function)
+const std::string bf::task4(const std::string& input, const std::string& given_function)
 {
-
-    // const std::string given_function{task1("2")};
-
-    // std::cout << "Вам дана функция: " << given_function << '\n';
-    // std::cout << "Назовите ее имя, вам нужно ввести его словами\n";
-
     std::unordered_map<std::string, std::string> f_names = {
         {"Нулевая", "0000"},
         {"Конъюнкция", "0001"},
@@ -106,7 +100,7 @@ std::string bf::task4(const std::string& input, const std::string& given_functio
     return ans;
 }
 
-std::string bf::task5(const std::string& func, const std::string& essentials, const std::string& fictitious)
+const std::string bf::task5(const std::string& func, const std::string& essentials, const std::string& fictitious)
 {
     size_t length = func.size();
     size_t args = 0;
@@ -147,7 +141,7 @@ std::string bf::task5(const std::string& func, const std::string& essentials, co
 }
 
 
-std::string bf::task8(const std::string& f)
+const std::string bf::task8(const std::string& f)
 {
     std::string sdnf{};
 
@@ -173,7 +167,7 @@ std::string bf::task8(const std::string& f)
     return sdnf.length() > 3 ? sdnf.substr(0, sdnf.length() - 3) : "";
 }
 
-std::string bf::task9(const std::string& f)
+const std::string bf::task9(const std::string& f)
 {
     std::string sknf{};
 
@@ -199,7 +193,7 @@ std::string bf::task9(const std::string& f)
     return sknf.length() > 3 ? sknf.substr(0, sknf.length() - 3) : "";
 }
 
-std::string bf::task10(const std::string& f, const std::vector<bool>& vbool)
+const std::string bf::task10(const std::string& f, const std::vector<bool>& vbool)
 {
     std::vector<bool> bf_classes
     {
@@ -220,7 +214,7 @@ std::string bf::task10(const std::string& f, const std::vector<bool>& vbool)
 
 // на фронте определим правильно ли пользователь
 // указал замкнутый класс
-std::string bf::task11(const std::string& f, const std::vector<bool>& input, const std::string& user_classes)
+const std::string bf::task11(const std::string& f, const std::vector<bool>& input, const std::string& user_classes)
 {
     std::vector<bool> result(5, true);
     const std::vector<std::string> system = parse(f, ' ');
@@ -317,7 +311,7 @@ bool bf::is_linear(const std::string& f)
 }
 
 
-std::vector<std::string> bf::parse(const std::string& f, char&& c)
+const std::vector<std::string> bf::parse(const std::string& f, char&& c)
 {
     std::vector<std::string> result;
     std::string temp;

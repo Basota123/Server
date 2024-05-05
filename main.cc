@@ -23,9 +23,9 @@ struct TripleInput
 
 using str_pair_t = std::pair<std::string, std::string>;
 
-std::string get_input(const FunctionCallbackInfo<Value>& args);
-str_pair_t get_double_input_for_games(const FunctionCallbackInfo<Value>& args);
-TripleInput get_triple_input(const FunctionCallbackInfo<Value>& args);
+const std::string get_input(const FunctionCallbackInfo<Value>& args);
+const str_pair_t get_double_input_for_games(const FunctionCallbackInfo<Value>& args);
+const TripleInput get_triple_input(const FunctionCallbackInfo<Value>& args);
 
 
 void first_task(const FunctionCallbackInfo<Value>& args)
@@ -33,9 +33,9 @@ void first_task(const FunctionCallbackInfo<Value>& args)
     Isolate* isolate = args.GetIsolate();
 
     v8::String::Utf8Value str(isolate, args[0]);
-    std::string n(*str);
+    const std::string n(*str);
 
-    std::string function = bf::task1(n);
+    const std::string function = bf::task1(n);
 
     args.GetReturnValue().Set(String::NewFromUtf8(
     isolate, function.c_str()).ToLocalChecked());
@@ -45,22 +45,11 @@ void second_task(const FunctionCallbackInfo<Value>& args)
 {
     Isolate* isolate = args.GetIsolate();
 
-    std::string input{get_input(args)};
+    const std::string input{get_input(args)};
 
-    std::vector<std::string> vstr = bf::parse(input, ' ');
+    const std::vector<std::string> vstr = bf::parse(input, ' ');
 
-    if ((1ull << (stoull(vstr[2]) - 1) > vstr[0].size()))
-    {
-        isolate->ThrowException(Exception::RangeError(
-            String::NewFromUtf8(
-                isolate, 
-                "Не правильный аргумент")
-                .ToLocalChecked()
-        ));
-        return;
-    }
-
-    std::string function_name{bf::task2(vstr[0], std::stoull(vstr[1]), std::stoi(vstr[2]) - 1)};
+    const std::string function_name{bf::task2(vstr[0], std::stoull(vstr[1]), std::stoi(vstr[2]) - 1)};
 
     args.GetReturnValue().Set(String::NewFromUtf8(
     isolate, function_name.c_str()).ToLocalChecked());
@@ -70,33 +59,11 @@ void second_task(const FunctionCallbackInfo<Value>& args)
 void third_task(const FunctionCallbackInfo<Value>& args)
 {
     Isolate* isolate = args.GetIsolate();
-    std::string input{get_input(args)};
+    const std::string input{get_input(args)};
 
-    std::vector<std::string> vstr = bf::parse(input, ' ');
+    const std::vector<std::string> vstr = bf::parse(input, ' ');
 
-    if ((vstr[0].size() + vstr[1].size()) < (1ull << std::stoull(vstr[2])))
-    {
-        isolate->ThrowException(Exception::Error(
-            String::NewFromUtf8(
-                isolate, 
-                "Не правильный аргумент")
-                .ToLocalChecked()
-        ));
-        return;
-    }
-
-    else if (vstr[0].size() != vstr[1].size())
-    {
-        isolate->ThrowException(Exception::Error(
-            String::NewFromUtf8(
-                isolate, 
-                "Не правильные функции")
-                .ToLocalChecked()
-        ));
-        return;
-    }
-
-    std::string function = bf::task3(vstr[0], vstr[1], std::stoull(vstr[2]));
+    const std::string function = bf::task3(vstr[0], vstr[1], std::stoull(vstr[2]));
 
     args.GetReturnValue().Set(String::NewFromUtf8(
     isolate, function.c_str()).ToLocalChecked());
@@ -106,9 +73,9 @@ void fourth_task(const FunctionCallbackInfo<Value>& args)
 {
     Isolate* isolate = args.GetIsolate();
 
-    str_pair_t input = get_double_input_for_games(args);
+    const str_pair_t input = get_double_input_for_games(args);
 
-    std::string ans = bf::task4(input.first, input.second);
+    const std::string ans = bf::task4(input.first, input.second);
 
     args.GetReturnValue().Set(String::NewFromUtf8(
     isolate, ans.c_str()).ToLocalChecked());
@@ -118,11 +85,9 @@ void fifth_task(const FunctionCallbackInfo<Value>& args)
 {
     Isolate* isolate = args.GetIsolate();
 
-    //str_pair_t input = get_double_input_for_games(args);
+    const auto input = get_triple_input(args);
 
-    auto input = get_triple_input(args);
-
-    std::string result = bf::task5(input.first, input.second, input.third);
+    const std::string result = bf::task5(input.first, input.second, input.third);
 
     args.GetReturnValue().Set(String::NewFromUtf8(
     isolate, result.c_str()).ToLocalChecked());
@@ -135,9 +100,9 @@ void seventh_task(const FunctionCallbackInfo<Value>& args);
 void eighth_task(const FunctionCallbackInfo<Value>& args)
 {
     Isolate* isolate = args.GetIsolate();
-    std::string input{get_input(args)};
+    const std::string input{get_input(args)};
 
-    std::string ans = bf::task8(input);
+    const std::string ans = bf::task8(input);
 
     args.GetReturnValue().Set(String::NewFromUtf8(
     isolate, ans.c_str()).ToLocalChecked());
@@ -146,9 +111,9 @@ void eighth_task(const FunctionCallbackInfo<Value>& args)
 void ninth_task(const FunctionCallbackInfo<Value>& args)
 {
     Isolate* isolate = args.GetIsolate();
-    std::string input{get_input(args)};
+    const std::string input{get_input(args)};
 
-    std::string ans = bf::task9(input);
+    const std::string ans = bf::task9(input);
 
     args.GetReturnValue().Set(String::NewFromUtf8(
     isolate, ans.c_str()).ToLocalChecked());
@@ -158,14 +123,14 @@ void tenth_task(const FunctionCallbackInfo<Value>& args)
 {
     Isolate* isolate = args.GetIsolate();
 
-    str_pair_t input = get_double_input_for_games(args);
+    const str_pair_t input = get_double_input_for_games(args);
 
     std::vector<bool> vbool{};
 
     for (size_t i = 0; i < input.second.size(); ++i) 
         vbool.push_back(input.second[i] - '0');
 
-    std::string result = bf::task10(input.first, vbool);
+    const std::string result = bf::task10(input.first, vbool);
 
     args.GetReturnValue().Set(String::NewFromUtf8(
     isolate, result.c_str()).ToLocalChecked());
@@ -175,13 +140,13 @@ void eleventh_task(const FunctionCallbackInfo<Value>& args)
 {
     Isolate* isolate = args.GetIsolate();
 
-    auto input = get_triple_input(args);
+    const auto input = get_triple_input(args);
     std::vector<bool> vbool{};
 
     for (size_t i = 0; i < input.second.size(); ++i) 
         vbool.push_back(input.second[i] - '0');
 
-    std::string result = bf::task11(input.first, vbool, input.third);
+    const std::string result = bf::task11(input.first, vbool, input.third);
 
     args.GetReturnValue().Set(String::NewFromUtf8(
     isolate, result.c_str()).ToLocalChecked());
@@ -190,7 +155,7 @@ void eleventh_task(const FunctionCallbackInfo<Value>& args)
 void twelfth_task(const FunctionCallbackInfo<Value>& args);
 
 
-void Initialize(Local<Object> exports) 
+void Initialize(const Local<Object>& exports) 
 {
     NODE_SET_METHOD(exports, "first_task", first_task);
     NODE_SET_METHOD(exports, "second_task", second_task);
@@ -208,7 +173,7 @@ void Initialize(Local<Object> exports)
 NODE_MODULE(addon, Initialize)
 
 
-std::string get_input(const FunctionCallbackInfo<Value>& args)
+const std::string get_input(const FunctionCallbackInfo<Value>& args)
 {
     Isolate* isolate = args.GetIsolate();
     std::string input{};
@@ -225,7 +190,7 @@ std::string get_input(const FunctionCallbackInfo<Value>& args)
     return input;
 }
 
-str_pair_t get_double_input_for_games(const FunctionCallbackInfo<Value>& args)
+const str_pair_t get_double_input_for_games(const FunctionCallbackInfo<Value>& args)
 {
     Isolate* isolate = args.GetIsolate();
 
@@ -240,7 +205,7 @@ str_pair_t get_double_input_for_games(const FunctionCallbackInfo<Value>& args)
     return game_input;
 }
 
-TripleInput get_triple_input(const FunctionCallbackInfo<Value>& args)
+const TripleInput get_triple_input(const FunctionCallbackInfo<Value>& args)
 {
     Isolate* isolate = args.GetIsolate();
     TripleInput input;
