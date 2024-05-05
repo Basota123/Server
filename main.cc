@@ -14,6 +14,7 @@ using v8::Context;
 using v8::Exception;
 
 std::string get_input(const FunctionCallbackInfo<Value>& args);
+std::string get_double_input(const FunctionCallbackInfo<Value>& args);
 
 void first_task(const FunctionCallbackInfo<Value>& args)
 {
@@ -105,11 +106,14 @@ void third_task(const FunctionCallbackInfo<Value>& args)
 void fourth_task(const FunctionCallbackInfo<Value>& args)
 {
     Isolate* isolate = args.GetIsolate();
-    std::string input{get_input(args)};
 
-    std::vector<std::string> vstr = bf::parse(input,' ');
+    v8::String::Utf8Value str1(isolate, args[0]);    
+    v8::String::Utf8Value str2(isolate, args[1]);    
 
-    std::string ans = bf::task4(vstr[0], vstr[1]);
+    std::string user_input(*str1);
+    std::string given_function(*str2);
+
+    std::string ans = bf::task4(user_input, given_function);
 
     args.GetReturnValue().Set(String::NewFromUtf8(
     isolate, ans.c_str()).ToLocalChecked());
@@ -188,6 +192,7 @@ void Initialize(Local<Object> exports)
     NODE_SET_METHOD(exports, "third_task", third_task);
     NODE_SET_METHOD(exports, "fourth_task", fourth_task);
     NODE_SET_METHOD(exports, "fifth_task", fifth_task);
+
 
     NODE_SET_METHOD(exports, "eighth_task", eighth_task);
     NODE_SET_METHOD(exports, "ninth_task", ninth_task);

@@ -187,7 +187,6 @@ std::string bf::task8(const std::string& f)
         !f.find('8') || !f.find('9'))
     )
     {
-        
         const size_t n = floor(log(f.size()) / log(2ull));
 
         for (size_t i = 0; i < (1ull << n); i++)
