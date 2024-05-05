@@ -140,6 +140,27 @@ const std::string bf::task5(const std::string& func, const std::string& essentia
     return answer1 + answer2;
 }
 
+const std::string bf::task6(const std::string& function, const std::string& user_input)
+{
+    const std::string DNF = task12(function);
+    std::string ans{};
+
+    if (user_input == function) ans = "Правильно!";
+    else ans = "Неправильно!";
+
+    return ans;
+}
+
+const std::string task7(const std::string& function, const std::string& user_input)
+{
+    const std::string KNF = bf::build_knf(function);
+    std::string ans{};
+
+    if (user_input == function) ans = "Правильно!";
+    else ans = "Неправильно!";
+
+    return ans;
+}
 
 const std::string bf::task8(const std::string& f)
 {
@@ -263,6 +284,28 @@ const std::string bf::task11(const std::string& f, const std::vector<bool>& inpu
     return ans1 + ans2 + ans3;
 }
 
+const std::string bf::task12(const std::string& fucntion)
+{
+    std::string dnf{""};
+    const size_t n = std::log2(fucntion.size());
+
+    for (size_t i = 0; i < fucntion.size(); i++)
+    {
+        if (fucntion[i] == '1')
+        {
+            std::string variables{""};
+
+            for (size_t j = 0; j < n; ++j)
+            {
+                if ((i & (1 << j)) == 0) variables += "!x" + std::to_string(j + 1) + " & ";
+                else variables += "x" + std::to_string(j + 1) + " & ";
+            }
+
+            dnf += "(" + variables.substr(0, variables.length() - 3) + ") | ";
+        }
+    }
+    return dnf.substr(0, dnf.size() - 3);
+}
 
 bool bf::is_nuller(const std::string& f)
 {
@@ -310,6 +353,29 @@ bool bf::is_linear(const std::string& f)
     return true;
 }
 
+const std::string bf::build_knf(const std::string& function)
+{
+    std::string dnf;
+    size_t n = std::log2(function.size()); 
+
+    
+    for (size_t i = 0; i < function.size(); ++i) {
+        
+        if (function[i] == '1') 
+        {
+            std::string term;
+            
+            for (size_t j = 0; j < n; ++j) 
+            {    
+                if ((i & (1ull << j)) == 0) term += "!x" + std::to_string(j + 1) + " | "; 
+                else term += "x" + std::to_string(j + 1) + " | ";    
+            }
+            dnf += "(" + term.substr(0, term.size() - 3) + ") & "; // Add the term to the DNF
+        }
+    }
+
+    return dnf.substr(0, dnf.size() - 3); // Return the DNF without the last & symbol
+}
 
 const std::vector<std::string> bf::parse(const std::string& f, char&& c)
 {
@@ -337,16 +403,3 @@ const std::vector<std::string> bf::parse(const std::string& f, char&& c)
     return result;
 }
 
-// std::vector<std::vector<size_t>> bf::generate_truth_table(const size_t& n, const std::string& boolfunc)
-// {
-//     std::vector<std::vector<size_t>> truth_table(pow(2, n), std::vector<size_t>(n + 1));
-//     for (size_t i = 0; i < (1ull << n); i++)
-//     {
-//         for (size_t j = n - 1ull; j >= 0ull; --j)
-//         {
-//             truth_table[i][j] = (i >> j) & 1ull;
-//         }
-//         truth_table[i][n] = boolfunc[i] - '0';
-//     }
-//     return truth_table;
-// }

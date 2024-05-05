@@ -32,7 +32,7 @@ void first_task(const FunctionCallbackInfo<Value>& args)
 {
     Isolate* isolate = args.GetIsolate();
 
-    v8::String::Utf8Value str(isolate, args[0]);
+    const v8::String::Utf8Value str(isolate, args[0]);
     const std::string n(*str);
 
     const std::string function = bf::task1(n);
@@ -93,9 +93,27 @@ void fifth_task(const FunctionCallbackInfo<Value>& args)
     isolate, result.c_str()).ToLocalChecked());
 }
 
+void sixth_task(const FunctionCallbackInfo<Value>& args)
+{
+    Isolate* isolate = args.GetIsolate();
 
-void sixth_task(const FunctionCallbackInfo<Value>& args);
-void seventh_task(const FunctionCallbackInfo<Value>& args);
+    const str_pair_t input = get_double_input_for_games(args);
+    const std::string ans = bf::task6(input.first, input.second);
+
+    args.GetReturnValue().Set(String::NewFromUtf8(
+    isolate, ans.c_str()).ToLocalChecked());
+}
+
+void seventh_task(const FunctionCallbackInfo<Value>& args)
+{
+    Isolate* isolate = args.GetIsolate();
+
+    const str_pair_t input = get_double_input_for_games(args);
+    const std::string ans = bf::task7(input.first, input.second);
+
+    args.GetReturnValue().Set(String::NewFromUtf8(
+    isolate, ans.c_str()).ToLocalChecked());
+}
 
 void eighth_task(const FunctionCallbackInfo<Value>& args)
 {
@@ -152,22 +170,32 @@ void eleventh_task(const FunctionCallbackInfo<Value>& args)
     isolate, result.c_str()).ToLocalChecked());
 }
 
-void twelfth_task(const FunctionCallbackInfo<Value>& args);
+void twelfth_task(const FunctionCallbackInfo<Value>& args)
+{
+    Isolate* isolate = args.GetIsolate();
+    const std::string input{get_input(args)};
+
+    const std::string result = bf::task12(input);
+
+    args.GetReturnValue().Set(String::NewFromUtf8(
+    isolate, result.c_str()).ToLocalChecked());
+}
 
 
-void Initialize(const Local<Object>& exports) 
+void Initialize(Local<Object> exports) 
 {
     NODE_SET_METHOD(exports, "first_task", first_task);
     NODE_SET_METHOD(exports, "second_task", second_task);
     NODE_SET_METHOD(exports, "third_task", third_task);
     NODE_SET_METHOD(exports, "fourth_task", fourth_task);
     NODE_SET_METHOD(exports, "fifth_task", fifth_task);
-
-
+    NODE_SET_METHOD(exports, "sixth_task", sixth_task);
+    NODE_SET_METHOD(exports, "seventh_task", seventh_task);
     NODE_SET_METHOD(exports, "eighth_task", eighth_task);
     NODE_SET_METHOD(exports, "ninth_task", ninth_task);
     NODE_SET_METHOD(exports, "tenth_task", tenth_task);
     NODE_SET_METHOD(exports, "eleventh_task", eleventh_task);
+    NODE_SET_METHOD(exports, "twelfth_task", twelfth_task);
 }   
 
 NODE_MODULE(addon, Initialize)
@@ -176,16 +204,9 @@ NODE_MODULE(addon, Initialize)
 const std::string get_input(const FunctionCallbackInfo<Value>& args)
 {
     Isolate* isolate = args.GetIsolate();
-    std::string input{};
-
-    for (int i = 0; i < args.Length(); i++)
-    {
-        if (args[i]->IsString())
-        {
-            v8::String::Utf8Value str(isolate, args[i]);
-            input += *str;
-        }
-    }
+    
+    v8::String::Utf8Value str(isolate, args[0]);
+    std::string input(*str);
 
     return input;
 }
