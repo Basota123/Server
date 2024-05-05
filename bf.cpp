@@ -228,26 +228,48 @@ std::string bf::task10(const std::string& f, const std::vector<bool>& vbool)
 
 std::string bf::task11(const std::string& f, const std::vector<bool>& input)
 {
-    std::vector<bool> result = {false, false, false, false, false};
+    std::vector<bool> result(5, true);
     const std::vector<std::string> system = parse(f, ' ');
 
-    std::string ans{};
+    std::string ans1{}, ans2{};
 
     for (size_t i = 0; i < result.size(); i++)
     {
-        result[0] = is_nuller(system[i]);
-        result[1] = is_units(system[i]);
-        result[2] = is_self_dual(system[i]);
-        result[3] = is_monotonic(system[i]);
-        result[4] = is_linear(system[i]);
+        result[0] = (is_nuller(system[i]) & result[0]);
+        result[1] = (is_units(system[i]) & result[1]);
+        result[2] = (is_self_dual(system[i]) & result[2]);
+        result[3] = (is_monotonic(system[i]) & result[3]);
+        result[4] = (is_linear(system[i]) & result[4]);
     }
 
+    if (input == result)
+    {
+        ans1 = "Вы правильно определили набор функции. ";
+
+        if (
+        result[0] == false && 
+        result[1] == false && 
+        result[2] == false && 
+        result[3] == false && 
+        result[4] == false
+        )
+        {
+            ans2 = "Система б.ф. полная.";
+        }
+
+        else
+        {
+            ans2 = "Система б.ф. неполная, определите класс, к которому пренадлежит.";
+        }
+    }
+
+    else 
+    {
+        ans1 = "Вы неправильно определили набор функции. ";
+        ans2 = "Попробуйте еще раз.";
+    }
     
-    
-
-
-
-    return ans;
+    return ans1 + ans2;
 }
 
 

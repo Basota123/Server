@@ -150,27 +150,37 @@ void ninth_task(const FunctionCallbackInfo<Value>& args)
 void tenth_task(const FunctionCallbackInfo<Value>& args)
 {
     Isolate* isolate = args.GetIsolate();
-    std::string input{get_input(args)};
 
-    std::vector<std::string> vstr = bf::parse(input,' ');
+    str_pair_t input = get_double_input_for_games(args);
+
     std::vector<bool> vbool{};
 
-    for (size_t i = 0; i < vstr[1].size(); ++i) 
-        vbool.push_back(vstr[1][i] - '0');
+    for (size_t i = 0; i < input.second.size(); ++i) 
+        vbool.push_back(input.second[i] - '0');
 
-    std::string result = bf::task10(vstr[0], vbool);
-
-    // std::stringstream ss;
-    // ss << std::boolalpha << result;
-
-    // const char* ans = ss.str().c_str();
+    std::string result = bf::task10(input.first, vbool);
 
     args.GetReturnValue().Set(String::NewFromUtf8(
     isolate, result.c_str()).ToLocalChecked());
 }
 
+void eleventh_task(const FunctionCallbackInfo<Value>& args)
+{
+    Isolate* isolate = args.GetIsolate();
 
-void eleventh_task(const FunctionCallbackInfo<Value>& args);
+    str_pair_t input = get_double_input_for_games(args);
+
+    std::vector<bool> vbool{};
+
+    for (size_t i = 0; i < input.second.size(); ++i) 
+        vbool.push_back(input.second[i] - '0');
+
+    std::string result = bf::task11(input.first, vbool);
+
+    args.GetReturnValue().Set(String::NewFromUtf8(
+    isolate, result.c_str()).ToLocalChecked());
+}
+
 void twelfth_task(const FunctionCallbackInfo<Value>& args);
 
 
