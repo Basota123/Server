@@ -23,23 +23,10 @@ void first_task(const FunctionCallbackInfo<Value>& args)
     v8::String::Utf8Value str(isolate, args[0]);
     std::string n(*str);
 
-    if (std::stoull(n) > 61)
-    {
-        isolate->ThrowException(Exception::RangeError(
-            String::NewFromUtf8(
-                isolate, 
-                "n должно быть меньше 61")
-                .ToLocalChecked()
-        ));
-        return;
-    }
-
     std::string function = bf::task1(n);
 
-    const char* function_name = function.c_str();
-
     args.GetReturnValue().Set(String::NewFromUtf8(
-    isolate, function_name).ToLocalChecked());
+    isolate, function.c_str()).ToLocalChecked());
 }
 
 void second_task(const FunctionCallbackInfo<Value>& args)

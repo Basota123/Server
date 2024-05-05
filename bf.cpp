@@ -122,8 +122,6 @@ std::string bf::task5(const std::string& func, const std::string& essentials)
 
     std::string ans{};
 
-    if (result.size() != essentials.size()) ans = "error";
-
     for (size_t i = 0; i < args; i++)
     {
         const std::string nuller = task2(func, 0, i);
@@ -132,35 +130,17 @@ std::string bf::task5(const std::string& func, const std::string& essentials)
         result[i] = (nuller == units);
     }
 
-    for (size_t i = 0; i < result.size(); i++)
+    for (size_t i = 0; i < args; i++)
     {
-        if (!result[i])
-        {
-            if (static_cast<size_t>(essentials[i] - '0') == i+1) 
-            {
-                ans = "Правильно!";
-                continue;
-            }
-
-            else 
-            {
-                ans = "Неправильно!";    
-                break;
-            }
-        }
-
-        else
-        {
-            ans = "Правильно!";
-        }
-
-        
+        if (result[i]) ans += std::to_string(i + 1);
     }
 
-    // if (result == essentials) ans = "Правильно!";
-    // else ans = "Неправильно!";
+    std::string answer{};
 
-    return ans;
+    if (ans == essentials) answer = "Правильно!";
+    else answer = "Неправильно!";
+
+    return answer;
 }
 
 std::string bf::task6(const std::string& f)
