@@ -10,13 +10,13 @@ public:
     static std::string task2(const std::string&, const size_t&, const size_t&);
     static std::string task3(const std::string&, const std::string&, const size_t&);
     static std::string task4(const std::string&, const std::string&);
-    static std::string task5(const std::string&, const std::string&);
+    static std::string task5(const std::string&, const std::string&, const std::string&);
     static std::string task6(const std::string&);
     static std::string task7(const std::string&);
     static std::string task8(const std::string&);
     static std::string task9(const std::string&);
     static std::string task10(const std::string&, const std::vector<bool>&);
-    static std::string task11(const std::string&, const std::vector<bool>&);
+    static std::string task11(const std::string&, const std::vector<bool>&, const std::string&);
 
 
 public:

@@ -106,7 +106,7 @@ std::string bf::task4(const std::string& input, const std::string& given_functio
     return ans;
 }
 
-std::string bf::task5(const std::string& func, const std::string& essentials)
+std::string bf::task5(const std::string& func, const std::string& essentials, const std::string& fictitious)
 {
     size_t length = func.size();
     size_t args = 0;
@@ -119,7 +119,7 @@ std::string bf::task5(const std::string& func, const std::string& essentials)
 
     std::vector<bool> result(args, false);
 
-    std::string ans{};
+    std::string ans1{}, ans2{};
 
     for (size_t i = 0; i < args; i++)
     {
@@ -131,28 +131,20 @@ std::string bf::task5(const std::string& func, const std::string& essentials)
 
     for (size_t i = 0; i < args; i++)
     {
-        if (result[i]) ans += std::to_string(i + 1);
+        if (!result[i]) ans1 += std::to_string(i + 1);
+        else ans2 += std::to_string(i + 1);
     }
 
-    std::string answer{};
+    std::string answer1{}, answer2{};
 
-    if (ans == essentials) answer = "Правильно!";
-    else answer = "Неправильно!";
+    if (ans1 == essentials) answer1 = "Вы правильно определили существенные переменные! ";
+    else answer1 = "Вы неправильно определили существенные переменные, попробуйте ещё раз! ";
 
-    return answer;
-}
-
-std::string bf::task6(const std::string& f)
-{
-    std::string dnf{};
-
-    //const size_t n = floor(log(f.size()) / log(2ull));
-    //const size_t m = f.size() / (1ull << n);
-    //const size_t step = round((f.size() / (1ull << n)));
+    if (ans2 == fictitious) answer2 = "Вы правильно определили фиктивные переменные! ";
+    else answer2 = "Вы неправильно определили фиктивные переменные, попробуйте ещё раз! ";
     
-    return dnf;
+    return answer1 + answer2;
 }
-
 
 
 std::string bf::task8(const std::string& f)
@@ -226,12 +218,14 @@ std::string bf::task10(const std::string& f, const std::vector<bool>& vbool)
     return ans;
 }
 
-std::string bf::task11(const std::string& f, const std::vector<bool>& input)
+// на фронте определим правильно ли пользователь
+// указал замкнутый класс
+std::string bf::task11(const std::string& f, const std::vector<bool>& input, const std::string& user_classes)
 {
     std::vector<bool> result(5, true);
     const std::vector<std::string> system = parse(f, ' ');
 
-    std::string ans1{}, ans2{};
+    std::string ans1{}, ans2{}, ans3{};
 
     for (size_t i = 0; i < result.size(); i++)
     {
@@ -254,25 +248,26 @@ std::string bf::task11(const std::string& f, const std::vector<bool>& input)
         result[4] == false
         )
         {
-            ans2 = "Система б.ф. полная.";
+            ans2 = "Система б.ф. полная. ";
         }
 
         else
         {
-            ans2 = "Система б.ф. неполная, определите класс, к которому пренадлежит.";
+            ans2 = "Система б.ф. неполная, определите класс, к которому пренадлежит. ";
         }
     }
 
+    for (size_t i = 0; i < result.size(); i++)
+        if (result[i]) ans3 += std::to_string(i + 1);
+    
     else 
     {
         ans1 = "Вы неправильно определили набор функции. ";
-        ans2 = "Попробуйте еще раз.";
+        ans2 = "Попробуйте еще раз. ";
     }
     
-    return ans1 + ans2;
+    return ans1 + ans2 + ans3;
 }
-
-
 
 
 bool bf::is_nuller(const std::string& f)

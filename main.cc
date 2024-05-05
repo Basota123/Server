@@ -14,11 +14,19 @@ using v8::Value;
 using v8::Context;
 using v8::Exception;
 
+struct TripleInput
+{
+    std::string first;
+    std::string second;
+    std::string third;
+};
 
 using str_pair_t = std::pair<std::string, std::string>;
 
 std::string get_input(const FunctionCallbackInfo<Value>& args);
 str_pair_t get_double_input_for_games(const FunctionCallbackInfo<Value>& args);
+TripleInput get_triple_input(const FunctionCallbackInfo<Value>& args);
+
 
 void first_task(const FunctionCallbackInfo<Value>& args)
 {
@@ -109,13 +117,12 @@ void fourth_task(const FunctionCallbackInfo<Value>& args)
 void fifth_task(const FunctionCallbackInfo<Value>& args)
 {
     Isolate* isolate = args.GetIsolate();
-    // std::string input{get_input(args)};
 
-    // std::vector<std::string> vstr = bf::parse(input,' ');
+    //str_pair_t input = get_double_input_for_games(args);
 
-    str_pair_t input = get_double_input_for_games(args);
+    auto input = get_triple_input(args);
 
-    std::string result = bf::task5(input.first, input.second);
+    std::string result = bf::task5(input.first, input.second, input.third);
 
     args.GetReturnValue().Set(String::NewFromUtf8(
     isolate, result.c_str()).ToLocalChecked());
@@ -168,14 +175,13 @@ void eleventh_task(const FunctionCallbackInfo<Value>& args)
 {
     Isolate* isolate = args.GetIsolate();
 
-    str_pair_t input = get_double_input_for_games(args);
-
+    auto input = get_triple_input(args);
     std::vector<bool> vbool{};
 
     for (size_t i = 0; i < input.second.size(); ++i) 
         vbool.push_back(input.second[i] - '0');
 
-    std::string result = bf::task11(input.first, vbool);
+    std::string result = bf::task11(input.first, vbool, input.third);
 
     args.GetReturnValue().Set(String::NewFromUtf8(
     isolate, result.c_str()).ToLocalChecked());
@@ -234,3 +240,22 @@ str_pair_t get_double_input_for_games(const FunctionCallbackInfo<Value>& args)
     return game_input;
 }
 
+TripleInput get_triple_input(const FunctionCallbackInfo<Value>& args)
+{
+    Isolate* isolate = args.GetIsolate();
+    TripleInput input;
+
+    v8::String::Utf8Value str1(isolate, args[0]);    
+    v8::String::Utf8Value str2(isolate, args[1]);   
+    v8::String::Utf8Value str3(isolate, args[2]);   
+
+    std::string f(*str1);
+    std::string s(*str2);
+    std::string t(*str3);
+
+    input.first = f;
+    input.second = s;
+    input.third = t;
+
+    return input;
+}

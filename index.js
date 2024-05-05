@@ -19,4 +19,7 @@ const addon = require("./build/Release/addon");
 
 // console.log(addon.fourth_task("Сложение", "0110"));
 
-console.log(addon.tenth_task("1101", "01000"));
+//console.log(addon.tenth_task("1101", "01000"));
+
+console.log(addon.fifth_task("1100", "1", "2"));
+console.log(addon.fifth_task("1100", "1", "3"));
