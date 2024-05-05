@@ -196,6 +196,7 @@ void Initialize(Local<Object> exports)
     NODE_SET_METHOD(exports, "eighth_task", eighth_task);
     NODE_SET_METHOD(exports, "ninth_task", ninth_task);
     NODE_SET_METHOD(exports, "tenth_task", tenth_task);
+    NODE_SET_METHOD(exports, "eleventh_task", eleventh_task);
 }   
 
 NODE_MODULE(addon, Initialize)
