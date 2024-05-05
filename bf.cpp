@@ -151,7 +151,7 @@ const std::string bf::task6(const std::string& function, const std::string& user
     return ans;
 }
 
-const std::string task7(const std::string& function, const std::string& user_input)
+const std::string bf::task7(const std::string& function, const std::string& user_input)
 {
     const std::string KNF = bf::build_knf(function);
     std::string ans{};
