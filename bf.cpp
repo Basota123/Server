@@ -281,6 +281,12 @@ const std::string bf::task11(const std::string& f, const std::vector<bool>& inpu
         ans2 = "Попробуйте еще раз. ";
     }
     
+    if (user_classes[0] == '1') ans3 += "Сохраняющая ноль ";
+    if (user_classes[1] == '1') ans3 += "Сохраняющая единицу ";
+    if (user_classes[2] == '1') ans3 += "Самодвойственная ";
+    if (user_classes[3] == '1') ans3 += "Монотонная ";
+    if (user_classes[4] == '1') ans3 += "Линейная ";
+
     return ans1 + ans2 + ans3;
 }
 
