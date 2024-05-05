@@ -3,6 +3,7 @@
 #include <iostream>
 #include <sstream>
 #include "bf.hpp"
+#include <utility>
 
 using v8::FunctionCallbackInfo;
 using v8::Isolate;
@@ -13,8 +14,11 @@ using v8::Value;
 using v8::Context;
 using v8::Exception;
 
+
+using str_pair_t = std::pair<std::string, std::string>;
+
 std::string get_input(const FunctionCallbackInfo<Value>& args);
-std::string get_double_input(const FunctionCallbackInfo<Value>& args);
+str_pair_t get_double_input_for_games(const FunctionCallbackInfo<Value>& args);
 
 void first_task(const FunctionCallbackInfo<Value>& args)
 {
@@ -94,13 +98,9 @@ void fourth_task(const FunctionCallbackInfo<Value>& args)
 {
     Isolate* isolate = args.GetIsolate();
 
-    v8::String::Utf8Value str1(isolate, args[0]);    
-    v8::String::Utf8Value str2(isolate, args[1]);    
+    str_pair_t input = get_double_input_for_games(args);
 
-    std::string user_input(*str1);
-    std::string given_function(*str2);
-
-    std::string ans = bf::task4(user_input, given_function);
+    std::string ans = bf::task4(input.first, input.second);
 
     args.GetReturnValue().Set(String::NewFromUtf8(
     isolate, ans.c_str()).ToLocalChecked());
@@ -109,11 +109,13 @@ void fourth_task(const FunctionCallbackInfo<Value>& args)
 void fifth_task(const FunctionCallbackInfo<Value>& args)
 {
     Isolate* isolate = args.GetIsolate();
-    std::string input{get_input(args)};
+    // std::string input{get_input(args)};
 
-    std::vector<std::string> vstr = bf::parse(input,' ');
+    // std::vector<std::string> vstr = bf::parse(input,' ');
 
-    std::string result = bf::task5(vstr[0], vstr[1]);
+    str_pair_t input = get_double_input_for_games(args);
+
+    std::string result = bf::task5(input.first, input.second);
 
     args.GetReturnValue().Set(String::NewFromUtf8(
     isolate, result.c_str()).ToLocalChecked());
@@ -205,3 +207,19 @@ std::string get_input(const FunctionCallbackInfo<Value>& args)
 
     return input;
 }
+
+str_pair_t get_double_input_for_games(const FunctionCallbackInfo<Value>& args)
+{
+    Isolate* isolate = args.GetIsolate();
+
+    v8::String::Utf8Value str1(isolate, args[0]);    
+    v8::String::Utf8Value str2(isolate, args[1]);    
+
+    std::string first_input(*str1);
+    std::string second_input(*str2);
+
+    str_pair_t game_input{first_input, second_input};
+
+    return game_input;
+}
+

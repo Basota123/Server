@@ -106,7 +106,6 @@ std::string bf::task4(const std::string& input, const std::string& given_functio
     return ans;
 }
 
-// переделать 
 std::string bf::task5(const std::string& func, const std::string& essentials)
 {
     size_t length = func.size();
@@ -147,9 +146,9 @@ std::string bf::task6(const std::string& f)
 {
     std::string dnf{};
 
-    const size_t n = floor(log(f.size()) / log(2ull));
-    const size_t m = f.size() / (1ull << n);
-    const size_t step = round((f.size() / (1ull << n)));
+    //const size_t n = floor(log(f.size()) / log(2ull));
+    //const size_t m = f.size() / (1ull << n);
+    //const size_t step = round((f.size() / (1ull << n)));
     
     return dnf;
 }
@@ -160,75 +159,52 @@ std::string bf::task8(const std::string& f)
 {
     std::string sdnf{};
 
-    if ((f.find('0') || f.find('1')) && 
-        (!f.find('2') || !f.find('3') || 
-        !f.find('4') || !f.find('5') || 
-        !f.find('6') || !f.find('7') || 
-        !f.find('8') || !f.find('9'))
-    )
-    {
-        const size_t n = floor(log(f.size()) / log(2ull));
+    const size_t n = floor(log(f.size()) / log(2ull));
 
-        for (size_t i = 0; i < (1ull << n); i++)
+    for (size_t i = 0; i < (1ull << n); i++)
+    {
+        if (f[i] == '1')
         {
-            if (f[i] == '1')
-            {
-                std::string variables = "";
+            std::string variables = "";
 
-                const std::string binary = std::bitset<32>(i).to_string().substr(32-n);
+            // использую битсет для для предствления числа i 
+            // в двоичном формате с фиксированным размером битовой строки равным 32
+            const std::string binary = std::bitset<32>(i).to_string().substr(32-n);
 
-                for (size_t j = 0; j < n; j++)
-                    variables += binary[j] == '0' ? "!x" + std::to_string(j + 1) + " & " : "x" + std::to_string(j + 1) + " & ";
-                
-                sdnf += "(" + variables.substr(0, variables.length() - 3) + ") | ";   
-            }
+            for (size_t j = 0; j < n; j++)
+                variables += binary[j] == '0' ? "!x" + std::to_string(j + 1) + " & " : "x" + std::to_string(j + 1) + " & ";
+            
+            sdnf += "(" + variables.substr(0, variables.length() - 3) + ") | ";   
         }
+    }
 
-        return sdnf.length() > 3 ? sdnf.substr(0, sdnf.length() - 3) : "";
-    }
-    else 
-    {
-        sdnf = "Не правильно введён вектор функции!";
-        return sdnf;
-    }
+    return sdnf.length() > 3 ? sdnf.substr(0, sdnf.length() - 3) : "";
 }
 
 std::string bf::task9(const std::string& f)
 {
     std::string sknf{};
 
-    if ((f.find('0') || f.find('1')) && 
-        (!f.find('2') || !f.find('3') || 
-        !f.find('4') || !f.find('5') || 
-        !f.find('6') || !f.find('7') || 
-        !f.find('8') || !f.find('9'))
-    )
-    {
-        const size_t n = floor(log(f.size()) / log(2ull));
+    const size_t n = floor(log(f.size()) / log(2ull));
 
-        for (size_t i = 0; i < (1ull << n); i++)
+    for (size_t i = 0; i < (1ull << n); i++)
+    {
+        if (f[i] == '1')
         {
-            if (f[i] == '1')
-            {
-                std::string variables = "";
+            std::string variables = "";
 
-                const std::string binary = std::bitset<32>(i).to_string().substr(32-n);
+            // использую битсет для для предствления числа i 
+            // в двоичном формате с фиксированным размером битовой строки равным 32
+            const std::string binary = std::bitset<32>(i).to_string().substr(32-n);
 
-                for (size_t j = 0; j < n; j++)
-                    variables += binary[j] == '1' ? "!x" + std::to_string(j + 1) + " | " : "x" + std::to_string(j + 1) + " | ";
-                
-                sknf += "(" + variables.substr(0, variables.length() - 3) + ") & ";   
-            }
+            for (size_t j = 0; j < n; j++)
+                variables += binary[j] == '1' ? "!x" + std::to_string(j + 1) + " | " : "x" + std::to_string(j + 1) + " | ";
+            
+            sknf += "(" + variables.substr(0, variables.length() - 3) + ") & ";   
         }
-
-        return sknf.length() > 3 ? sknf.substr(0, sknf.length() - 3) : "";
     }
 
-    else
-    {
-        sknf = "Не правильно введён вектор функции!";
-        return sknf;
-    }
+    return sknf.length() > 3 ? sknf.substr(0, sknf.length() - 3) : "";
 }
 
 std::string bf::task10(const std::string& f, const std::vector<bool>& vbool)
