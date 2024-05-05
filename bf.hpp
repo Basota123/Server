@@ -16,7 +16,7 @@ public:
     static const std::string task8(const std::string&);
     static const std::string task9(const std::string&);
     static const std::string task10(const std::string&, const std::vector<bool>&);
-    static const std::string task11(const std::string&, const std::vector<bool>&, const std::string&);
+    static const std::string task11(const std::string&, const std::vector<bool>&);
     static const std::string task12(const std::string&);
 
     static const std::string build_knf(const std::string&);

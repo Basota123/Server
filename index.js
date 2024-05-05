@@ -1,6 +1,6 @@
 const addon = require("./build/Release/addon");
 
-console.log(addon.first_task("2"));
+// console.log(addon.first_task("2"));
 
 // console.log("нулевая остаточная по первому аргументу")
 // console.log(addon.second_task("10010110 0 1"));
@@ -23,4 +23,4 @@ console.log(addon.first_task("2"));
 
 // console.log(addon.fifth_task("1100", "1", "2"));
 // console.log(addon.fifth_task("1100", "1", "3"));
-console.log(addon.twelfth_task("1010"));
+console.log(addon.eleventh_task("1010 1010 1010", "00000"));

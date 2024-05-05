@@ -158,13 +158,13 @@ void eleventh_task(const FunctionCallbackInfo<Value>& args)
 {
     Isolate* isolate = args.GetIsolate();
 
-    const auto input = get_triple_input(args);
+    const auto input = get_double_input_for_games(args);
     std::vector<bool> vbool{};
 
     for (size_t i = 0; i < input.second.size(); ++i) 
         vbool.push_back(input.second[i] - '0');
 
-    const std::string result = bf::task11(input.first, vbool, input.third);
+    const std::string result = bf::task11(input.first, vbool);
 
     args.GetReturnValue().Set(String::NewFromUtf8(
     isolate, result.c_str()).ToLocalChecked());

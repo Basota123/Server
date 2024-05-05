@@ -235,59 +235,29 @@ const std::string bf::task10(const std::string& f, const std::vector<bool>& vboo
 
 // на фронте определим правильно ли пользователь
 // указал замкнутый класс
-const std::string bf::task11(const std::string& f, const std::vector<bool>& input, const std::string& user_classes)
+const std::string bf::task11(const std::string& f, const std::vector<bool>& input)
 {
-    std::vector<bool> result(5, true);
+    std::vector<bool> result{};
+
+    for (size_t i = 0; i < input.size(); i++) result.push_back(true);
+
     const std::vector<std::string> system = parse(f, ' ');
 
-    std::string ans1{}, ans2{}, ans3{};
+    std::string ans{};
 
-    for (size_t i = 0; i < result.size(); i++)
+    for (const auto& sys : system)
     {
-        result[0] = (is_nuller(system[i]) & result[0]);
-        result[1] = (is_units(system[i]) & result[1]);
-        result[2] = (is_self_dual(system[i]) & result[2]);
-        result[3] = (is_monotonic(system[i]) & result[3]);
-        result[4] = (is_linear(system[i]) & result[4]);
+        result[0] = (is_nuller(sys) & result[0]);
+        result[1] = (is_units(sys) & result[1]);
+        result[2] = (is_self_dual(sys) & result[2]);
+        result[3] = (is_monotonic(sys) & result[3]);
+        result[4] = (is_linear(sys) & result[4]);
     }
 
-    if (input == result)
-    {
-        ans1 = "Вы правильно определили набор функции. ";
+    if (result == input) ans = "Правильно!";
+    else ans = "Неправильно!";
 
-        if (
-        result[0] == false && 
-        result[1] == false && 
-        result[2] == false && 
-        result[3] == false && 
-        result[4] == false
-        )
-        {
-            ans2 = "Система б.ф. полная. ";
-        }
-
-        else
-        {
-            ans2 = "Система б.ф. неполная, определите класс, к которому пренадлежит. ";
-        }
-    }
-
-    for (size_t i = 0; i < result.size(); i++)
-        if (result[i]) ans3 += std::to_string(i + 1);
-    
-    else 
-    {
-        ans1 = "Вы неправильно определили набор функции. ";
-        ans2 = "Попробуйте еще раз. ";
-    }
-    
-    if (user_classes[0] == '1') ans3 += "Сохраняющая ноль ";
-    if (user_classes[1] == '1') ans3 += "Сохраняющая единицу ";
-    if (user_classes[2] == '1') ans3 += "Самодвойственная ";
-    if (user_classes[3] == '1') ans3 += "Монотонная ";
-    if (user_classes[4] == '1') ans3 += "Линейная ";
-
-    return ans1 + ans2 + ans3;
+    return ans;
 }
 
 const std::string bf::task12(const std::string& fucntion)
